@@ -1,23 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
+import ReactHlsPlayer from 'react-hls-player';
+import ReactPlayer from 'react-player';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header></Header>
+      {/* <p>Any Stream</p> */}
+      {/*<ReactHlsPlayer
+        url='http://localhost:8080/stream/start/Stephulz'
+        autoplay={true}
+        controls={true}
+        width={500}
+        height={375}
+      />*/}
+      {/* <ReactPlayer
+        url='http://localhost:8080/stream/start/Stephulz'
+        muted={true}
+        playing={true}
+        config={{
+          file: {
+            forceHLS: true
+          }
+        }}
+        controls={true}
+        width={500}
+        height={375}
+      /> */}
     </div>
   );
 }

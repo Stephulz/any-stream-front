@@ -1,0 +1,119 @@
+.header {
+    overflow: hidden;
+    padding: 10px 10px;
+    background-color: #1a1a1f;
+    box-shadow: 0 5px 10px -1px rgba(0, 0, 0, .1), 0 4px 6px -1px rgba(0, 0, 0, .05);
+    position: relative;
+}
+
+.header a {
+    float: left;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 25px;
+    border-radius: 4px;
+    color: #f2f2f2;
+}
+
+.header a.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.header a:hover {
+    color: #8541eb;
+}
+
+.header-right {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+}
+
+.header-right .avatar {
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.header-right .avatar:hover {
+    filter: blur(1px);
+    cursor: pointer;
+}
+
+.header-middle {
+    left: 45%;
+    top: 1rem;
+    position: absolute;
+}
+
+.header-middle .search-input {
+    width: 15rem;
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: #515151;
+}
+
+.header-middle .search-input:hover {
+    outline: none;
+    box-shadow: 0 0 0 2px #b5b5b5;
+}
+
+::placeholder {
+    color: #b5b5b5;
+    opacity: 1;
+}
+
+:focus, .header-middle .search-input:hover {
+    outline: none;
+    box-shadow: 0 0 0 2px #8541eb;
+}
+
+.header-middle .search-button {
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: #515151;
+    height: 2.3rem;
+    margin: 0;
+    position: absolute;
+    top: 49%;
+    left: 100%;
+    -ms-transform: translate(0%, -50%);
+    transform: translate(0%, -50%);
+}
+
+.header-middle .search-button:hover {
+    background-color: #727272;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 855px) {
+    .header a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+    .header-middle {
+        position: relative;
+        display: block;
+        float: left;
+        left: 0%;
+        padding-top: 1rem;
+    }
+    .header-right {
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-bottom: 1rem;
+        left: 2.5rem;
+        position: relative;
+        float: left;
+    }
+    .header-middle .search-button {
+        top: 65%;
+    }
+}
