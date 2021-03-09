@@ -4,6 +4,7 @@ import ReactHlsPlayer from 'react-hls-player';
 import ReactPlayer from 'react-player';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import Login from './components/Login/Login';
 
 function App() {
   return (
