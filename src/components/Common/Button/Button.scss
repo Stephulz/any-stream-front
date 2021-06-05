@@ -1,0 +1,17 @@
+@import "../colors.scss";
+
+.btn {
+    margin-right: 1rem;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: $dark-gray;
+    height: 50px;
+    display: inline-block;
+    align-items: center;
+}
+
+.btn:hover {
+    box-shadow: 0 0 0 1.5px $twitch-purple;
+    filter: blur(0.5px);
+    cursor: pointer;
+}

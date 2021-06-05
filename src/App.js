@@ -3,13 +3,20 @@ import './App.css';
 import ReactHlsPlayer from 'react-hls-player';
 import ReactPlayer from 'react-player';
 import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
-import Login from './components/Login/Login';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Home from './components/Home/Home';
 
-function App() {
+const App = (props) => {
   return (
     <div className="App">
-      <Header></Header>
+      <BrowserRouter>
+        <Header />
+        <Switch>
+          <Route path="/" exact>
+            <Home />
+          </Route>
+        </Switch>
+      </BrowserRouter>
       {/* <p>Any Stream</p> */}
       {/*<ReactHlsPlayer
         url='http://localhost:8080/stream/start/Stephulz'

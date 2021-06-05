@@ -1,91 +1,142 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Header.css';
 import userImage from '../../resources/user.png'
 import { BiSearchAlt2 } from "react-icons/bi";
-import axios from 'axios';
 import Login from '../Login/Login';
-const { REACT_APP_API_URL } = process.env;
+import UserMenu from '../UserMenu/UserMenu';
+import { NavLink } from 'react-router-dom';
+import { Field, Formik } from 'formik';
+import * as yup from 'yup';
+import { useDispatch } from 'react-redux';
+import fetchStreams from '../../redux/services/stream.service';
+import Button from '../Common/Button/Button';
 
-class Header extends Component {
+const Header = () => {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            user: {
-                id: Number,
-                username: null,
-                email: String,
-                streamKey: String,
-                imageUrl: null,
-                roles: [
-                    {
-                        id: Number,
-                        name: String
-                    }
-                ]
-            },
-            showModal: false
-        };
-        this.handleOpenModal = this.handleOpenModal.bind(this);
+    const [showModal, setShowModal] = useState(false);
+    const [showUserMenuModal, setShowUserMenuModal] = useState(false);
+    const dispatch = useDispatch();
+
+    const [user, setUser] = useState({
+        user: {
+            id: Number,
+            username: null,
+            email: String,
+            streamKey: String,
+            imageUrl: null,
+            roles: [
+                {
+                    id: Number,
+                    name: String
+                }
+            ]
+        },
+    });
+
+    useEffect(() => {
+        const retrievedUser = JSON.parse(localStorage.getItem("user"));
+        console.log("user from local storage: ", retrievedUser);
+        if (retrievedUser !== null) {
+            setUser(retrievedUser);
+        }
+    }, [showModal]);
+
+    const schema = yup.object({
+        search: yup.string()
+            .required('Obrigatorio')
+    })
+
+    async function handleSearchStream(obj) {
+        console.log(obj)
+        dispatch(fetchStreams(obj.search));
     }
 
-    handleOpenModal() {
-        this.setState({ showModal: true });
+    const handleOpenModal = () => {
+        setShowModal(true);
     }
 
-    handleCloseModal() {
-        this.setState({ showModal: false });
+    const handleOpenUserMenuModal = () => {
+        setShowUserMenuModal(true);
     }
 
-    componentDidMount() {
-        // axios.get(`${REACT_APP_API_URL}`)
-        //     .then(res => {
-        //         const persons = res.data;
-        //         this.setState({ persons });
-        //     })
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setShowUserMenuModal(false);
     }
 
-    render() {
-        return (
-            <div className="row">
-                <div className="column">
-                    <a href="/" className="column-logo">Any Stream</a>
-                    <a href="#following">Seguindo</a>
-                    <a href="#search">Procurar</a>
-                </div>
-                <div className="column-middle">
-                    <form method="post">
-                        <input
-                            type="text"
-                            name="search"
-                            placeholder="Buscar"
-                            className="search-input" />
-                        <button type="submit" className="search-button">
-                            <BiSearchAlt2
-                                color="#b5b5b5"
-                                size="25"
-                            ></BiSearchAlt2>
-                        </button>
-                    </form>
-                </div>
-                <div className="column-right">
-                    {this.state.user.username == null ?
-                        <>
-                            <button className="btn" onClick={() => this.handleOpenModal()}>
-                                <p>Entrar</p>
-                            </button>
-                            <button className="btn">
-                                <p>Criar Conta</p>
-                            </button>
-                        </>
-                        : <p className="user-label">{this.state.user.username}</p>
-                    }
-                    <img className="avatar" src={this.state.user.imageUrl ? this.state.user.imageUrl : userImage} alt="User Profile"></img>
-                </div>
-                <Login showModal={this.state.showModal} onLogin={this.handleCloseModal.bind(this)}></Login>
+    const handleLogout = () => {
+        localStorage.clear();
+        handleCloseModal();
+        setUser({ user: null });
+    }
+
+    return (
+        <div className="row">
+            <div className="column">
+                <NavLink to="/" className="column-logo" exact>Any Stream</NavLink>
+                <NavLink to="/following">Seguindo</NavLink>
+                <NavLink to="/search?">Procurar</NavLink>
             </div>
-        );
-    }
+
+            <div className="column-middle">
+                <Formik
+                    initialValues={{ search: '' }}
+                    validationSchema={schema}
+                    onSubmit={(search) => handleSearchStream(search)}
+                    validateOnChange={true}
+                    validateOnMount={true}
+                >
+                    {(props) => (
+                        <form onSubmit={props.handleSubmit} noValidate>
+                            <Field
+                                id="search"
+                                type="text"
+                                name="search"
+                                placeholder="Buscar"
+                                className="search-input"
+                            />
+                            <button
+                                className={props.errors.search ? "search-button-invalid" : "search-button"}
+                                type="submit">
+                                <BiSearchAlt2
+                                    className="search-button-icon"
+                                    color="#b5b5b5"
+                                ></BiSearchAlt2>
+                            </button>
+                        </form>
+                    )}
+                </Formik>
+            </div>
+
+            <div className="column-right">
+                {user.username == null ?
+                    <>
+                        <Button label='Entrar' onClick={() => handleOpenModal()} />
+                        <Button label='Criar Conta' onClick={() => console.log('Create account')} />
+                    </>
+                    : <p className="user-label">{user.username}</p>
+                }
+
+                <img
+                    className="avatar"
+                    src={user.imageUrl ? user.imageUrl : userImage}
+                    alt="User Profile"
+                    onClick={() => user.username ? handleOpenUserMenuModal() : ''}
+                />
+
+                <UserMenu
+                    showModal={showUserMenuModal}
+                    onLogout={() => handleLogout()}
+                    onClose={() => handleCloseModal()}
+                />
+            </div>
+
+            <Login
+                showModal={showModal}
+                onLogin={() => handleCloseModal()}
+            />
+        </div>
+    );
 }
 
 export default Header;

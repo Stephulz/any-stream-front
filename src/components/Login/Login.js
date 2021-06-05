@@ -1,31 +1,56 @@
 import axios from 'axios';
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
 import './Login.css'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 const { REACT_APP_API_URL } = process.env;
 
 const Login = (props) => {
-    const [username, setUsername] = useState('');
-    useEffect(() => {
-        console.log('useEffect username: ', username);
-    }, [username]);
+    const MySwal = withReactContent(Swal)
 
-    const [password, setPassword] = useState('');
+    const [userLogin, setUser] = useState({
+        user: {
+            username: '',
+            password: ''
+        }
+    });
+
     useEffect(() => {
-        console.log('useEffect password: ', password);
-    }, [password]);
+        console.log('useEffect user: ', userLogin);
+    }, [userLogin]);
+
+    function onChangeHandler(event) {
+        const { name, value } = event.target
+        setUser({ user: { ...userLogin.user, [name]: value } })
+    }
 
     async function fetchData(event) {
         event.preventDefault();
-        let user = {
-            username: username,
-            password: password
-        }
-
-        axios.post(`${REACT_APP_API_URL}auth/signin`, user)
+        axios.post(`${REACT_APP_API_URL}auth/signin`, userLogin.user)
             .then(res => {
                 console.log(res);
                 const userRes = res.data;
+                localStorage.setItem("user", JSON.stringify(userRes))
+                props.onLogin();
+            }).catch(error => {
+                MySwal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    icon: 'error',
+                    title: <p className="logo">Error {error.response.status}</p>,
+                    background: '#1a1a1f',
+                    showClass: true,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                console.log("ERROR: ", error.response);
             })
     }
 
@@ -33,7 +58,7 @@ const Login = (props) => {
         <ReactModal
             ariaHideApp={false}
             isOpen={props.showModal}
-            contentLabel="Minimal Modal Example"
+            contentLabel="Login Modal"
             className="modal"
             overlayClassName="overlay"
             shouldCloseOnOverlayClick={true}
@@ -47,16 +72,18 @@ const Login = (props) => {
                     type="email"
                     name="username"
                     className="form-input-email"
-                    onChange={(e) => setUsername(e.target.value)}
-                    value={username}
+                    onChange={(e) => onChangeHandler(e)}
+                    value={userLogin.username}
+                    required
                 />
                 <p className="form-label">Senha</p>
                 <input
                     type="password"
                     name="password"
                     className="form-input-senha"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
+                    onChange={(e) => onChangeHandler(e)}
+                    value={userLogin.password}
+                    required
                 />
                 <button className="form-button" type="submit" >
                     <p className="form-label-button">Entrar</p>
