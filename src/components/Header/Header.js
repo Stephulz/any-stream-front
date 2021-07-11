@@ -111,8 +111,8 @@ const Header = () => {
             <div className="column-right">
                 {user.username == null ?
                     <>
-                        <Button label='Entrar' onClick={() => handleOpenModal()} />
-                        <Button label='Criar Conta' onClick={() => console.log('Create account')} />
+                        <Button label='Entrar' customClass='btn-custom' onClick={() => handleOpenModal()} />
+                        <Button label='Criar Conta' customClass='btn-custom' onClick={() => console.log('Create account')} />
                     </>
                     : <p className="user-label">{user.username}</p>
                 }

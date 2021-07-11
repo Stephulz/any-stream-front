@@ -1,7 +1,15 @@
 @import "../colors.scss";
 
 .btn {
-    margin-right: 1rem;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: $dark-gray;
+    height: 50px;
+    display: inline-block;
+    align-items: center;
+}
+
+.btn-no-hover {
     border: 1px solid black;
     border-radius: 4px;
     background-color: $dark-gray;
@@ -14,4 +22,11 @@
     box-shadow: 0 0 0 1.5px $twitch-purple;
     filter: blur(0.5px);
     cursor: pointer;
+}
+
+.btn p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #c9c9c9;
+    line-height: 20px;
 }

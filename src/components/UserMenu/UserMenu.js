@@ -1,4 +1,5 @@
 import ReactModal from "react-modal";
+import Button from "../Common/Button/Button";
 import './UserMenu.css';
 
 const UserMenu = (props) => {
@@ -12,10 +13,14 @@ const UserMenu = (props) => {
             shouldCloseOnOverlayClick={true}
             onRequestClose={props.onClose}
         >
-            <button onClick={props.onLogout}>Logout</button>
-            {/* <button className="btn" onClick={() => handleOpenModal()}>
-                <p>Entrar</p>
-            </button> */}
+            <div className="user-menu-container">
+
+
+
+                <Button label="Canal" onClick={props.onLogout} customClass={'user-menu-item'} />
+                <hr className="user-menu-hr" />
+                <Button label="Sair" onClick={props.onLogout} customClass={'user-menu-item'} />
+            </div>
         </ReactModal>
     );
 }

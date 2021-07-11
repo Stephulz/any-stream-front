@@ -1,18 +1,33 @@
-.user-menu-modal {
+/* .user-menu-modal {
     background-color: #1a1a1f;
     border-radius: 10px;
     width: 350px;
     height: 380px;
     float: right;
     margin-top: 5rem;
-    /* margin: 0; */
-    /* position: absolute; */
-    /* top: 26%; */
-    /* left: 90%; */
-    /* -ms-transform: translate(-50%, -50%); */
-    /* transform: translate(-50%, -50%); */
     box-shadow: 0 0 0 1.5px black;
     border-radius: 4px;
+    margin-right: 8px;
+}
+
+.user-menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.user-menu-item {
+    text-align: center;
+    flex: 1;
+}
+
+.user-menu-hr {
+    text-align: center;
+    width: 90%;
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .user-menu-overlay {
@@ -31,9 +46,10 @@
     box-shadow: 0 0 0 2px #f2f2f2;
 }
 
-.form-input-email:focus, .form-input-senha:focus {
+.form-input-email:focus,
+.form-input-senha:focus {
     box-shadow: 0 0 0 2px #8541eb;
-    background-color: #252525 !important
+    background-color: #252525 !important;
 }
 
 .logo {
@@ -69,7 +85,8 @@
     transform: translate(-50%, -50%);
 }
 
-.form-login .form-input-email, .form-input-senha {
+.form-login .form-input-email,
+.form-input-senha {
     display: flex;
     margin: 1rem;
     font-size: 2rem;
@@ -117,4 +134,4 @@
     font-weight: bold;
     color: #c9c9c9;
     line-height: 20px;
-}
+} */
